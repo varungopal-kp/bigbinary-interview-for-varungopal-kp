@@ -18,13 +18,13 @@ import reducer from './reducer';
 import saga from './saga';
 
 export function HomePage() {
-  
   return (
     <div>
       <Helmet>
         <title>SpaceX</title>
         <meta name="SpaceX" content="SpaceX Dashboard Challenge" />
       </Helmet>
+     
     </div>
   );
 }
