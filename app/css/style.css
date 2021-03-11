@@ -3,6 +3,7 @@ html {
   margin: 0;
   padding: 0;
   background: #fff;
+  font-family: "Inter", sans-serif !important;
 }
 
 header {
@@ -14,5 +15,50 @@ header {
 .logo {
   box-sizing: content-box;
   padding: 20px;
+}
+
+.filters {
+  width: 100%;
+  max-width: 950px;
+  margin: 30px 60px 22px;
+}
+
+.filters select {
+  float: right;
+}
+
+.table-container {
+  width: 950px;
+  margin: 30px 60px;
+  font-size: 13px;
+}
+
+table {
+  border: 1px solid #dee2e6;
+}
+
+table thead {
+  background: #f4f5f7;
 
 }
+
+.table td,
+.table th {
+
+  border-top: 0px;
+}
+
+table th {
+  font-weight: 500;
+
+}
+
+.pagination-container {
+  float: right;
+}
+
+.page-link {
+  color: black;
+}
+
+.table-container {}

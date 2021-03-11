@@ -33,7 +33,10 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
+
+
 
 // Create redux store with history
 const initialState = {};
