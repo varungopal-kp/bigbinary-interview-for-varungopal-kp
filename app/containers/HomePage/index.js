@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -17,38 +17,51 @@ import makeSelectHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import List from './list'
+import Datepicker from 'components/Datepicker';
+import Select from 'components/SelectField';
+import List from './list';
 
-export function HomePage() {
-  return (
-    <React.Fragment>
-      <Helmet>
-        <title>SpaceX</title>
-        <meta name="SpaceX" content="SpaceX Dashboard Challenge" />
-      </Helmet>
-      <div className="container">
-        <div className="filters">
-          <div className="row">
-            <div className="col-6">
-              <i className="fa fa-calendar-o" aria-hidden="true" /> Past 15 Year
-              <i className="fa fa-angle-down" aria-hidden="true" />
-            </div>
-            <div className="col-6">
-              <select>
-                <option value="all">All Launches</option>
-                <option value="upcoming">Upcoming Launches</option>
-                <option value="success">Succesful Launches</option>
-                <option value="failed">Failed Launches</option>
-              </select>
+export class HomePage extends Component {
+  render() {
+    const options = [
+      { value: 'all', label: 'All Launches' },
+      { value: 'upcoming', label: 'Upcoming Launches' },
+      { value: 'success', label: 'Succesful Launches' },
+      { value: 'failed', label: 'Failed Launches' },
+    ];
+    return (
+      <React.Fragment>
+        <Helmet>
+          <title>SpaceX</title>
+          <meta name="SpaceX" content="SpaceX Dashboard Challenge" />
+        </Helmet>
+        <div className="container">
+          <div className="filters">
+            <div className="row">
+              <div className="col-6">
+                <Datepicker
+                  onChange={e => {
+                    console.log(e);
+                  }}
+                />
+              </div>
+              <div className="col-6 launches">
+              <i class="fa fa-filter"></i>
+                <Select
+                  options={options}
+                  onChange={e => {
+                    console.log(e);
+                  }}
+                />
+              </div>
             </div>
           </div>
+          <List />
         </div>
-        <List />
-      </div>
-    </React.Fragment>
-  );
+      </React.Fragment>
+    );
+  }
 }
-
 HomePage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
