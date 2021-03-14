@@ -38,6 +38,7 @@ import './css/style.css';
 
 
 
+
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);

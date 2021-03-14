@@ -1,6 +1,24 @@
-// import { take, call, put, select } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import request from 'utils/request';
+import { getLaunchesError, getLaunchesSuccess } from './actions';
+import { GET_LAUNCHES } from './constants';
 
-// Individual exports for testing
+const BASE_URL = `${process.env.BASE_URL}`;
+
+export function* getLaunchesCall({ payload }) {
+  try {
+    const params = new URLSearchParams(payload);
+    const repos = yield call(request, `${BASE_URL}?${params}`, {
+      headers: {},
+    });
+   
+    yield put(getLaunchesSuccess(repos));
+  } catch (err) {
+    console.error(err);
+    yield put(getLaunchesError(err));
+  }
+}
+
 export default function* homePageSaga() {
-  // See example in containers/HomePage/saga.js
+  yield takeLatest(GET_LAUNCHES, getLaunchesCall);
 }

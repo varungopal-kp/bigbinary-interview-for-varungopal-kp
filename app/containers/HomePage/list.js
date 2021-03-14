@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import moment from 'moment';
+import Pagination from 'react-js-pagination';
 
 export default class list extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    const { tableData, loading } = this.props;
+
     return (
       <React.Fragment>
         <div className="table-container">
-          <table className="table table-hover">
+          <table className="table ">
             <thead>
               <tr>
                 <th>No:</th>
@@ -18,110 +26,60 @@ export default class list extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>23-2-2020</td>
-                <td>India</td>
-                <td>Appolo 2</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Fighter</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>24-2-2020</td>
-                <td>USA</td>
-                <td>Appolo 3</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Bird</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>23-2-2020</td>
-                <td>India</td>
-                <td>Appolo 2</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Fighter</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>24-2-2020</td>
-                <td>USA</td>
-                <td>Appolo 3</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Bird</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>23-2-2020</td>
-                <td>India</td>
-                <td>Appolo 2</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Fighter</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>23-2-2020</td>
-                <td>India</td>
-                <td>Appolo 2</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Fighter</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>24-2-2020</td>
-                <td>USA</td>
-                <td>Appolo 3</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Bird</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>23-2-2020</td>
-                <td>India</td>
-                <td>Appolo 2</td>
-                <td>GEO</td>
-                <td>success</td>
-                <td>Fighter</td>
-              </tr>
+              {loading ? (
+                <tr>
+                  <td className="spinner" colSpan="7">
+                    <img src={require('../../images/spinner.gif')} />
+                  </td>
+                </tr>
+              ) : tableData && tableData.data.length ? (
+                tableData.data.map(_a => (
+                  <tr key={_a.flight_number} className="table-row">
+                    <td>{_a.flight_number}</td>
+                    <td>
+                      {moment(_a.launch_date_utc, 'YYYY-MM-DD HH:mm:ss').format(
+                        'DD MMMM YYYY [at] hh:mm',
+                      )}
+                    </td>
+                    <td>{_a.launch_site && _a.launch_site.site_name}</td>
+                    <td>{_a.mission_name}</td>
+                    <td>
+                      {_a.rocket &&
+                        _a.rocket.second_stage &&
+                        _a.rocket.second_stage.payloads &&
+                        _a.rocket.second_stage.payloads[0].orbit}
+                    </td>
+                    <td>
+                      {_a.launch_success ? (
+                        <span className="launch-status success-label">
+                          Success{' '}
+                        </span>
+                      ) : (
+                        <span className="launch-status failed-label">
+                          Failed{' '}
+                        </span>
+                      )}
+                    </td>
+                    <td>{_a.rocket && _a.rocket.rocket_name}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="no-data-row">
+                  <td>No data</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
-        <nav className="pagination-container" aria-label="...">
-          <ul className="pagination pagination-md">
-            <li className="page-item">
-              <a className="page-link" href="#">
-                {'<'}
-              </a>
-            </li>
-            <li className="page-item disabled">
-              <a className="page-link" href="#" tabIndex="-1">
-                1
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                {'>'}
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <Pagination
+          activePage={+this.props.activePage}
+          itemsCountPerPage={12}
+          totalItemsCount={+tableData.count}
+          pageRangeDisplayed={5}
+          onChange={this.props.handlePageChange}
+          itemClass="page-item"
+          linkClass="page-link"
+        />
       </React.Fragment>
     );
   }
