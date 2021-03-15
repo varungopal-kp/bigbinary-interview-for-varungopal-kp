@@ -86,3 +86,6 @@ table thead {
   background: #def7ec;
   color: #03543f;
 }
+.no-data-row td {
+  text-align: center;
+}
