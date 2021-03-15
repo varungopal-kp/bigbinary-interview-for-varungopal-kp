@@ -94,7 +94,13 @@ export class HomePage extends Component {
   }
 
   handleDate(start, end, index) {
-    this.setState({ start, end, dateLableIndex: index });
+    this.setState({
+      start,
+      end,
+      dateLableIndex: index,
+      offset: 0,
+      activePage: 1,
+    });
   }
 
   render() {
@@ -105,7 +111,7 @@ export class HomePage extends Component {
       { value: 'success', label: 'Succesful Launches' },
       { value: 'failed', label: 'Failed Launches' },
     ];
-    console.log(this.state);
+   
     return (
       <React.Fragment>
         <Helmet>
@@ -116,15 +122,7 @@ export class HomePage extends Component {
           <div className="filters">
             <div className="row">
               <div className="col-6">
-                <Datepicker
-                  onChange={e => {
-                    this.setState({
-                      start: e[0],
-                      end: e[1],
-                      offset: 0,
-                      activePage: 1,
-                    });
-                  }}
+                <Datepicker                 
                   value={[this.state.start, this.state.end]}
                   handleDate={(start, end, label) =>
                     this.handleDate(start, end, label)
