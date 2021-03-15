@@ -34,6 +34,7 @@ export class HomePage extends Component {
       start: moment().subtract(15, 'year'),
       end: moment(),
       launches: 'all',
+      dateLableIndex: 5,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
   }
@@ -42,19 +43,44 @@ export class HomePage extends Component {
     let params = this.state;
     if (this.props.location.search) {
       params = queryString.parse(this.props.location.search);
-      this.setState({ ...params })
+      this.setState({ ...params });
     }
-    this.props.fetchLaunches({ ...params });
+    const fetchParams = {
+      start: params.start,
+      end: params.end,
+      limit: params.limit,
+      offset: params.offset,
+      upcoming: params.launches == 'upcoming' && true,
+    };
+    if (params.launches == 'success') {
+      fetchParams.launch_success = true;
+    }
+    if (params.launches == 'failed') {
+      fetchParams.launch_success = false;
+    }
+    this.props.fetchLaunches(fetchParams);
     this.props.history.push({
       pathname: '/',
       search: '?' + new URLSearchParams({ ...params }).toString(),
     });
-   
   }
 
   componentDidUpdate(preProps, preState) {
     if (JSON.stringify(this.state) != JSON.stringify(preState)) {
-      this.props.fetchLaunches({ ...this.state });
+      const fetchParams = {
+        start: this.state.start,
+        end: this.state.end,
+        limit: this.state.limit,
+        offset: this.state.offset,
+        upcoming: this.state.launches == 'upcoming' && true,
+      };
+      if (this.state.launches == 'success') {
+        fetchParams.launch_success = true;
+      }
+      if (this.state.launches == 'failed') {
+        fetchParams.launch_success = false;
+      }
+      this.props.fetchLaunches(fetchParams);
       this.props.history.push({
         pathname: '/',
         search: '?' + new URLSearchParams({ ...this.state }).toString(),
@@ -67,6 +93,10 @@ export class HomePage extends Component {
     this.setState({ activePage: pageNumber, offset });
   }
 
+  handleDate(start, end, index) {
+    this.setState({ start, end, dateLableIndex: index });
+  }
+
   render() {
     const { selector } = this.props;
     const options = [
@@ -75,6 +105,7 @@ export class HomePage extends Component {
       { value: 'success', label: 'Succesful Launches' },
       { value: 'failed', label: 'Failed Launches' },
     ];
+    console.log(this.state);
     return (
       <React.Fragment>
         <Helmet>
@@ -87,8 +118,18 @@ export class HomePage extends Component {
               <div className="col-6">
                 <Datepicker
                   onChange={e => {
-                    this.setState({ start: e[0], end: e[1] });
+                    this.setState({
+                      start: e[0],
+                      end: e[1],
+                      offset: 0,
+                      activePage: 1,
+                    });
                   }}
+                  value={[this.state.start, this.state.end]}
+                  handleDate={(start, end, label) =>
+                    this.handleDate(start, end, label)
+                  }
+                  dateLableIndex={this.state.dateLableIndex}
                 />
               </div>
               <div className="col-6 launches">
@@ -98,7 +139,7 @@ export class HomePage extends Component {
                   options={options}
                   value={this.state.launches}
                   onChange={e => {
-                    this.setState({ launches: e });
+                    this.setState({ launches: e, offset: 0, activePage: 1 });
                   }}
                 />
               </div>

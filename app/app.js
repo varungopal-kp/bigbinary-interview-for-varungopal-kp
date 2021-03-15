@@ -35,7 +35,7 @@ import { translationMessages } from './i18n';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/style.css';
-
+import 'bootstrap-daterangepicker/daterangepicker.css';
 
 
 
