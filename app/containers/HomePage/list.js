@@ -65,21 +65,24 @@ export default class list extends Component {
                 ))
               ) : (
                 <tr className="no-data-row">
-                  <td>No data</td>
+                  <td colspan="7">No results found for the specified filter</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-        <Pagination
-          activePage={+this.props.activePage}
-          itemsCountPerPage={12}
-          totalItemsCount={+tableData.count}
-          pageRangeDisplayed={5}
-          onChange={this.props.handlePageChange}
-          itemClass="page-item"
-          linkClass="page-link"
-        />
+        {tableData.data.length && (
+          <Pagination
+            activePage={+this.props.activePage}
+            itemsCountPerPage={12}
+            totalItemsCount={+tableData.count}
+            pageRangeDisplayed={5}
+            onChange={this.props.handlePageChange}
+            itemClass="page-item"
+            linkClass="page-link"
+            hideFirstLastPages
+          />
+        )}
       </React.Fragment>
     );
   }
