@@ -1,0 +1,88 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: 'Inter', sans-serif !important;
+}
+
+header {
+  height: 72px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
+  text-align: center;
+}
+
+.logo {
+  box-sizing: content-box;
+  padding: 20px;
+}
+
+.filters {
+  width: 100%;
+  max-width: 950px;
+  margin: 30px 60px 22px;
+}
+
+.filters .launches {
+  display: flex;
+  justify-content: flex-end;
+}
+.filters .fa-filter {
+  margin-top: 3px;
+}
+
+.table-container {
+  width: 950px;
+  height: 600px;
+  margin: 30px 60px;
+  font-size: 13px;
+  border: 1px solid #dee2e6;
+}
+
+table {
+  border: 0px;
+}
+
+table thead {
+  background: #f4f5f7;
+}
+
+.table td,
+.table th {
+  border-top: 0px;
+}
+
+.table thead th {
+  font-weight: 500;
+  border-bottom: 0px;
+}
+.table .table-row:hover {
+  background: rgba(0, 0, 0, 0.075) !important;
+}
+.page-link {
+  color: black;
+}
+
+.pagination {
+  float: right;
+  padding-right: 95px;
+  padding-bottom: 20px;
+}
+.spinner {
+  text-align: center;
+  padding: 150px !important;
+}
+
+.launch-status {
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.failed-label {
+  color: #981b1c;
+  background: #fde2e1;
+}
+.success-label {
+  background: #def7ec;
+  color: #03543f;
+}
